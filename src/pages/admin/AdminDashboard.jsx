@@ -32,21 +32,21 @@ export default function AdminDashboard() {
 
   return (
     <div>
-      <header className="sticky top-0 z-10 flex items-center justify-between bg-surface/80 px-10 py-6 backdrop-blur-md">
+      <header className="sticky top-0 z-10 flex flex-wrap items-center justify-between gap-4 bg-surface/80 px-4 py-6 backdrop-blur-md md:px-10">
         <h2 className="font-display text-headline-lg text-primary">Panel de Administración</h2>
         <div className="flex items-center gap-6">
           <div className="group relative">
             <Icon name="notifications" className="cursor-pointer rounded-full p-2 text-on-surface-variant transition-colors hover:bg-surface-container" />
             <span className="absolute right-1 top-1 h-2 w-2 rounded-full bg-error" />
           </div>
-          <div className="flex items-center gap-2 rounded-full bg-surface-container-high px-4 py-2">
+          <div className="hidden items-center gap-2 rounded-full bg-surface-container-high px-4 py-2 sm:flex">
             <Icon name="calendar_today" className="text-primary" />
             <span className="font-label-md text-label-md text-on-surface capitalize">{today}</span>
           </div>
         </div>
       </header>
 
-      <div className="space-y-10 px-10 pb-16">
+      <div className="space-y-10 px-4 pb-16 md:px-10">
         <section className="grid grid-cols-1 gap-6 md:grid-cols-4">
           <StatCard icon="error" iconBg="bg-tertiary-fixed" iconColor="text-tertiary" trend="+12% vs semana pasada" trendColor="text-error" label="Reportes Activos" value={activos} />
           <StatCard icon="check_circle" iconBg="bg-primary-fixed" iconColor="text-primary" trend="+5% vs semana pasada" trendColor="text-primary" label="Casos Resueltos" value={resueltos} />
@@ -62,8 +62,8 @@ export default function AdminDashboard() {
                 Ver todo <Icon name="arrow_forward" className="text-[18px]" />
               </Link>
             </div>
-            <div className="soft-shadow overflow-hidden rounded-xl bg-surface-container-lowest">
-              <table className="w-full border-collapse text-left">
+            <div className="soft-shadow overflow-x-auto rounded-xl bg-surface-container-lowest">
+              <table className="w-full min-w-[640px] border-collapse text-left">
                 <thead className="bg-surface-container-low">
                   <tr>
                     <th className="px-6 py-4 font-label-md text-label-md text-on-surface-variant">Mascota</th>

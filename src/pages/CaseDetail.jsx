@@ -23,6 +23,8 @@ export default function CaseDetail() {
   const [message, setMessage] = useState("");
   const [posting, setPosting] = useState(false);
   const [showPhone, setShowPhone] = useState(false);
+  const [zoomOpen, setZoomOpen] = useState(false);
+  const [shareFeedback, setShareFeedback] = useState("");
 
   useEffect(() => {
     let active = true;
@@ -60,6 +62,34 @@ export default function CaseDetail() {
     if (!confirm("¿Eliminar este reporte de forma permanente?")) return;
     await reportsApi.remove(id);
     navigate("/buscar");
+  }
+
+  async function handleShare() {
+    const shareData = {
+      title: `${report.nombreMascota || "Mascota"} · Kindred Paws`,
+      text: `${report.tipo === "perdido" ? "Ayúdanos a encontrar a" : "Se encontró a"} ${
+        report.nombreMascota || "esta mascota"
+      } en ${report.ubicacion}.`,
+      url: window.location.href,
+    };
+
+    if (navigator.share) {
+      try {
+        await navigator.share(shareData);
+      } catch {
+        // usuario canceló el share, no hacemos nada
+      }
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      setShareFeedback("¡Enlace copiado!");
+    } catch {
+      setShareFeedback("No se pudo copiar el enlace.");
+    } finally {
+      setTimeout(() => setShareFeedback(""), 2000);
+    }
   }
 
   async function handleSighting(e) {
@@ -106,15 +136,50 @@ export default function CaseDetail() {
         <div className="w-full space-y-6 lg:w-[60%]">
           <div className="group relative aspect-[4/3] overflow-hidden rounded-xl bg-surface-container shadow-lg">
             <PetPhoto foto={report.foto} especie={report.especie} className="h-full w-full transition-transform duration-700 group-hover:scale-105" />
-            <div className="absolute bottom-4 left-4 flex gap-2">
-              <button className="rounded-full bg-white/90 p-2 text-primary shadow-md backdrop-blur-sm">
+            <div className="absolute bottom-4 left-4 flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setZoomOpen(true)}
+                disabled={!report.foto}
+                className="rounded-full bg-white/90 p-2 text-primary shadow-md backdrop-blur-sm disabled:cursor-not-allowed disabled:opacity-50"
+              >
                 <Icon name="zoom_in" />
               </button>
-              <button className="rounded-full bg-white/90 p-2 text-primary shadow-md backdrop-blur-sm">
+              <button
+                type="button"
+                onClick={handleShare}
+                className="rounded-full bg-white/90 p-2 text-primary shadow-md backdrop-blur-sm"
+              >
                 <Icon name="share" />
               </button>
+              {shareFeedback && (
+                <span className="rounded-full bg-white/90 px-3 py-1 text-caption font-label-md text-primary shadow-md backdrop-blur-sm">
+                  {shareFeedback}
+                </span>
+              )}
             </div>
           </div>
+
+          {zoomOpen && report.foto && (
+            <div
+              className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-6"
+              onClick={() => setZoomOpen(false)}
+            >
+              <button
+                type="button"
+                onClick={() => setZoomOpen(false)}
+                className="absolute right-6 top-6 rounded-full bg-white/90 p-2 text-primary shadow-md"
+              >
+                <Icon name="close" />
+              </button>
+              <img
+                src={report.foto}
+                alt={report.nombreMascota || report.especie}
+                className="max-h-full max-w-full rounded-xl object-contain shadow-2xl"
+                onClick={(e) => e.stopPropagation()}
+              />
+            </div>
+          )}
 
           {isOwner && (
             <div className="flex gap-4">

@@ -1,6 +1,7 @@
 import { NavLink, Outlet } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import Icon from "../../components/Icon";
+import AdminMobileNav from "./AdminMobileNav";
 
 const links = [
   { to: "/admin", label: "Dashboard", icon: "dashboard", end: true },
@@ -46,9 +47,11 @@ export default function AdminLayout() {
         </button>
       </aside>
 
-      <main className="flex-1 overflow-y-auto bg-surface">
+      <main className="flex-1 overflow-y-auto bg-surface pb-20 md:pb-0">
         <Outlet />
       </main>
+
+      <AdminMobileNav onLogout={logout} />
     </div>
   );
 }

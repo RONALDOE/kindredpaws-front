@@ -82,7 +82,7 @@ export default function Home() {
             <div className="aspect-[4/3] rotate-2 overflow-hidden rounded-[2rem] shadow-2xl transition-transform duration-500 hover:rotate-0">
               <img className="h-full w-full object-cover" src={HERO_IMAGE} alt="Golden Retriever reencontrado con su dueño" />
             </div>
-            <div className="glass-effect absolute -bottom-6 -left-6 max-w-[200px] rounded-2xl border border-white/50 p-6 shadow-xl">
+            <div className="glass-effect absolute -bottom-6 left-2 max-w-[200px] rounded-2xl border border-white/50 p-6 shadow-xl sm:-left-6">
               <p className="font-display text-headline-md leading-none text-primary">{1240 + resueltos}+</p>
               <p className="font-label-md text-label-md text-on-surface-variant">Mascotas reunidas este mes</p>
             </div>

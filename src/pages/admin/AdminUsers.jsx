@@ -50,25 +50,25 @@ export default function AdminUsers() {
 
   return (
     <div className="flex h-full flex-col bg-surface-bright">
-      <header className="z-10 flex w-full items-center justify-between px-10 py-6">
+      <header className="z-10 flex w-full flex-col gap-4 px-4 py-6 sm:flex-row sm:items-center sm:justify-between md:px-10">
         <div className="flex flex-col">
           <h2 className="font-display text-headline-lg tracking-tight text-primary">Gestión de Usuarios</h2>
           <p className="font-body-md text-on-surface-variant">Administra el acceso y los roles de la comunidad Kindred Paws.</p>
         </div>
         <div className="flex items-center gap-4">
-          <div className="relative hidden sm:block">
+          <div className="relative w-full sm:w-64">
             <Icon name="search" className="absolute left-3 top-1/2 -translate-y-1/2 text-outline" />
             <input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Buscar por nombre o email..."
-              className="w-64 rounded-full border border-outline-variant bg-surface-container-low py-2 pl-10 pr-4 text-sm outline-none transition-all focus:border-primary focus:ring-2 focus:ring-primary"
+              className="w-full rounded-full border border-outline-variant bg-surface-container-low py-2 pl-10 pr-4 text-sm outline-none transition-all focus:border-primary focus:ring-2 focus:ring-primary"
             />
           </div>
         </div>
       </header>
 
-      <div className="flex-1 overflow-hidden px-10 pb-10">
+      <div className="flex-1 overflow-hidden px-4 pb-10 md:px-10">
         <div className="glass-card flex h-full w-full flex-col rounded-xl shadow-xl">
           <div className="flex flex-wrap items-center justify-between gap-4 border-b border-outline-variant p-6">
             <div className="flex gap-2">
@@ -90,8 +90,8 @@ export default function AdminUsers() {
             </div>
           </div>
 
-          <div className="flex-1 overflow-y-auto">
-            <table className="w-full border-collapse text-left">
+          <div className="flex-1 overflow-auto">
+            <table className="w-full min-w-[720px] border-collapse text-left">
               <thead className="sticky top-0 z-20 bg-surface-container-low">
                 <tr>
                   <th className="px-6 py-4 text-xs font-label-md uppercase tracking-wider text-on-surface-variant">Nombre</th>
@@ -137,7 +137,7 @@ export default function AdminUsers() {
                       {new Date(u.creadoEn).toLocaleDateString("es-ES", { day: "2-digit", month: "short", year: "numeric" })}
                     </td>
                     <td className="px-6 py-4 text-right">
-                      <div className="flex justify-end gap-2 opacity-0 transition-opacity group-hover:opacity-100">
+                      <div className="flex justify-end gap-2 opacity-100 transition-opacity md:opacity-0 md:group-hover:opacity-100">
                         <button onClick={() => toggleRol(u.id, u.rol)} className="rounded-full p-2 text-primary hover:bg-surface-container-highest" title="Editar Rol">
                           <Icon name="edit_square" />
                         </button>

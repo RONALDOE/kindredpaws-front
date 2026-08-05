@@ -141,7 +141,7 @@ export default function Search() {
         )}
 
         {totalPages > 1 && (
-          <div className="mt-16 flex items-center justify-center gap-4">
+          <div className="mt-16 flex flex-wrap items-center justify-center gap-4">
             <button
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               disabled={page === 1}
@@ -149,7 +149,7 @@ export default function Search() {
             >
               <Icon name="chevron_left" />
             </button>
-            <div className="flex gap-2">
+            <div className="flex flex-wrap justify-center gap-2">
               {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
                 <button
                   key={n}

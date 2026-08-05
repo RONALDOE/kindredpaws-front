@@ -58,25 +58,28 @@ export default function AdminReports() {
 
   return (
     <div className="flex h-full flex-col">
-      <header className="sticky top-0 z-10 flex w-full items-center justify-between bg-surface px-4 py-4 shadow-sm md:px-10">
-        <h2 className="font-display text-headline-md font-bold text-primary">Gestión de Reportes</h2>
-        <div className="flex items-center gap-6">
-          <div className="relative hidden sm:block">
-            <Icon name="search" className="absolute left-4 top-1/2 -translate-y-1/2 text-outline" />
-            <input
-              value={search}
-              onChange={(e) => {
-                setSearch(e.target.value);
-                setPage(1);
-              }}
-              placeholder="Buscar reportes..."
-              className="w-64 rounded-full border border-outline bg-surface-container-lowest py-2 pl-16 pr-6 text-body-md outline-none transition-all focus:border-primary focus:ring-1 focus:ring-primary"
-            />
-          </div>
-          <Link to="/publicar" className="flex items-center gap-2 rounded-full bg-primary px-6 py-2 text-on-primary transition-all hover:shadow-md">
+      <header className="sticky top-0 z-10 flex w-full flex-col gap-4 bg-surface px-4 py-4 shadow-sm sm:flex-row sm:items-center sm:justify-between md:px-10">
+        <div className="flex items-center justify-between gap-4">
+          <h2 className="font-display text-headline-md font-bold text-primary">Gestión de Reportes</h2>
+          <Link
+            to="/publicar"
+            className="flex items-center gap-2 rounded-full bg-primary px-4 py-2 text-on-primary transition-all hover:shadow-md sm:order-2 sm:px-6"
+          >
             <Icon name="add" />
-            <span className="font-label-md">Nuevo Reporte</span>
+            <span className="hidden font-label-md sm:inline">Nuevo Reporte</span>
           </Link>
+        </div>
+        <div className="relative w-full sm:w-64">
+          <Icon name="search" className="absolute left-4 top-1/2 -translate-y-1/2 text-outline" />
+          <input
+            value={search}
+            onChange={(e) => {
+              setSearch(e.target.value);
+              setPage(1);
+            }}
+            placeholder="Buscar reportes..."
+            className="w-full rounded-full border border-outline bg-surface-container-lowest py-2 pl-16 pr-6 text-body-md outline-none transition-all focus:border-primary focus:ring-1 focus:ring-primary"
+          />
         </div>
       </header>
 
@@ -130,7 +133,7 @@ export default function AdminReports() {
         {/* Table */}
         <div className="overflow-hidden rounded-xl border border-outline-variant bg-surface shadow-sm">
           <div className="overflow-x-auto">
-            <table className="w-full border-collapse text-left">
+            <table className="w-full min-w-[720px] border-collapse text-left">
               <thead className="border-b border-outline-variant bg-surface-container-low">
                 <tr>
                   <th className="px-6 py-4 font-label-md uppercase tracking-wider text-on-surface-variant">ID</th>
@@ -178,7 +181,7 @@ export default function AdminReports() {
                     </td>
                     <td className="px-6 py-6 font-body-md text-on-surface-variant">{formatDate(r.fecha)}</td>
                     <td className="px-6 py-6 text-right">
-                      <div className="flex justify-end gap-2 opacity-0 transition-opacity group-hover:opacity-100">
+                      <div className="flex justify-end gap-2 opacity-100 transition-opacity md:opacity-0 md:group-hover:opacity-100">
                         <button onClick={() => toggleEstado(r.id, r.estado)} className="rounded-lg p-2 text-primary hover:bg-primary-fixed" title="Alternar estado">
                           <Icon name="verified" />
                         </button>
@@ -198,11 +201,11 @@ export default function AdminReports() {
           {paged.length === 0 && <p className="px-6 py-16 text-center text-on-surface-variant">No hay reportes que coincidan.</p>}
 
           {/* Pagination */}
-          <div className="flex items-center justify-between border-t border-outline-variant bg-surface-container-low px-6 py-4">
+          <div className="flex flex-col items-center justify-between gap-4 border-t border-outline-variant bg-surface-container-low px-6 py-4 sm:flex-row">
             <p className="font-caption text-on-surface-variant">
               Mostrando {paged.length} de {filtered.length} reportes
             </p>
-            <div className="flex gap-2">
+            <div className="flex flex-wrap justify-center gap-2">
               <button
                 onClick={() => setPage((p) => Math.max(1, p - 1))}
                 disabled={page === 1}
