@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { reportsApi } from "../../api/reports";
+import { formatDate } from "../../utils/date";
 import Spinner from "../../components/Spinner";
 import Icon from "../../components/Icon";
 
@@ -175,7 +176,7 @@ export default function AdminReports() {
                         </div>
                       )}
                     </td>
-                    <td className="px-6 py-6 font-body-md text-on-surface-variant">{r.fecha}</td>
+                    <td className="px-6 py-6 font-body-md text-on-surface-variant">{formatDate(r.fecha)}</td>
                     <td className="px-6 py-6 text-right">
                       <div className="flex justify-end gap-2 opacity-0 transition-opacity group-hover:opacity-100">
                         <button onClick={() => toggleEstado(r.id, r.estado)} className="rounded-lg p-2 text-primary hover:bg-primary-fixed" title="Alternar estado">

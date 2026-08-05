@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { reportsApi } from "../api/reports";
 import { useAuth } from "../context/AuthContext";
 import { uploadImage } from "../utils/cloudinary";
+import { todayInputValue } from "../utils/date";
 import Icon from "../components/Icon";
 
 const STEPS = [
@@ -25,7 +26,7 @@ const initialState = {
   ciudad: "",
   ubicacion: "",
   tipo: "",
-  fecha: new Date().toISOString().slice(0, 10),
+  fecha: todayInputValue(),
   descripcion: "",
 };
 
@@ -87,6 +88,10 @@ export default function PublishReport() {
     }
     if (!form.ciudad.trim()) {
       setError("Indica al menos la ciudad.");
+      return;
+    }
+    if (form.fecha > todayInputValue()) {
+      setError("La fecha no puede ser futura.");
       return;
     }
 
@@ -215,16 +220,16 @@ export default function PublishReport() {
             <div className="space-y-6">
               <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                 <Field label="Provincia / Estado">
-                  <input className="input" placeholder="ej. Buenos Aires" value={form.provincia} onChange={(e) => update("provincia", e.target.value)} />
+                  <input className="input" placeholder="ej. Santo Domingo" value={form.provincia} onChange={(e) => update("provincia", e.target.value)} />
                 </Field>
                 <Field label="Ciudad">
-                  <input className="input" placeholder="ej. La Plata" value={form.ciudad} onChange={(e) => update("ciudad", e.target.value)} />
+                  <input className="input" placeholder="ej. Santiago de los Caballeros" value={form.ciudad} onChange={(e) => update("ciudad", e.target.value)} />
                 </Field>
                 <div className="md:col-span-2">
                   <Field label="Dirección Exacta / Visto por última vez cerca de">
                     <input
                       className="input"
-                      placeholder="ej. Esquina de Av. 7 y 50"
+                      placeholder="ej. Av. Winston Churchill esquina Rómulo Betancourt"
                       value={form.ubicacion}
                       onChange={(e) => update("ubicacion", e.target.value)}
                     />
@@ -274,7 +279,13 @@ export default function PublishReport() {
 
               <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                 <Field label="Fecha del Evento">
-                  <input type="date" className="input" value={form.fecha} onChange={(e) => update("fecha", e.target.value)} />
+                  <input
+                    type="date"
+                    className="input"
+                    max={todayInputValue()}
+                    value={form.fecha}
+                    onChange={(e) => update("fecha", e.target.value)}
+                  />
                 </Field>
                 <Field label="Subir Foto (Opcional)">
                   <button

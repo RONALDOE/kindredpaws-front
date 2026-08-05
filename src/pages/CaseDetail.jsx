@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { reportsApi } from "../api/reports";
 import { sightingsApi } from "../api/sightings";
 import { useAuth } from "../context/AuthContext";
+import { formatDate } from "../utils/date";
 import PetPhoto from "../components/PetPhoto";
 import Spinner from "../components/Spinner";
 import Icon from "../components/Icon";
@@ -139,7 +140,7 @@ export default function CaseDetail() {
           <div className="rounded-xl border border-outline-variant/30 bg-white p-6 shadow-sm">
             <h1 className="font-display text-headline-lg text-primary mb-2">{titulo}</h1>
             <p className="mb-6 font-body-md text-on-surface-variant">
-              {isPerdido ? "Visto por última vez" : "Encontrado"} el {report.fecha}
+              {isPerdido ? "Visto por última vez" : "Encontrado"} el {formatDate(report.fecha)}
             </p>
             <div className="space-y-4">
               <div className="flex items-center gap-4 rounded-lg bg-surface-container-low p-4">
