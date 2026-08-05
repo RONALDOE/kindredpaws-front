@@ -165,6 +165,20 @@ export default function Auth() {
               />
             </div>
             <div className="space-y-1">
+              <label className="block font-label-md text-label-md text-on-surface-variant" htmlFor="reg-telefono">
+                Teléfono
+              </label>
+              <input
+                id="reg-telefono"
+                type="tel"
+                required
+                className="input"
+                placeholder="809-555-0123"
+                value={registerForm.telefono}
+                onChange={(e) => setRegisterForm((f) => ({ ...f, telefono: e.target.value }))}
+              />
+            </div>
+            <div className="space-y-1">
               <label className="block font-label-md text-label-md text-on-surface-variant" htmlFor="reg-password">
                 Crear Contraseña
               </label>
