@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { reportsApi } from "../api/reports";
 import { useAuth } from "../context/AuthContext";
-import { fileToDataUrl } from "../utils/file";
+import { uploadImage } from "../utils/cloudinary";
 import Icon from "../components/Icon";
 
 const STEPS = [
@@ -38,6 +38,7 @@ export default function PublishReport() {
   const [form, setForm] = useState(initialState);
   const [foto, setFoto] = useState("");
   const [fotoNombre, setFotoNombre] = useState("");
+  const [uploadingFoto, setUploadingFoto] = useState(false);
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
@@ -49,13 +50,26 @@ export default function PublishReport() {
     const file = e.target.files?.[0];
     if (!file) return;
     setFotoNombre(file.name);
-    setFoto(await fileToDataUrl(file));
+    setError("");
+    setUploadingFoto(true);
+    try {
+      setFoto(await uploadImage(file));
+    } catch (err) {
+      setFotoNombre("");
+      setError(err.message || "No se pudo subir la imagen.");
+    } finally {
+      setUploadingFoto(false);
+    }
   }
 
   function goNext() {
     setError("");
     if (step < 3) {
       setStep((s) => s + 1);
+      return;
+    }
+    if (uploadingFoto) {
+      setError("Espera a que termine de subirse la foto.");
       return;
     }
     handleSubmit();
@@ -266,10 +280,13 @@ export default function PublishReport() {
                   <button
                     type="button"
                     onClick={() => fileInputRef.current?.click()}
-                    className="flex h-12 w-full items-center justify-between rounded-lg border border-dashed border-outline-variant px-4 transition-colors hover:bg-surface-container"
+                    disabled={uploadingFoto}
+                    className="flex h-12 w-full items-center justify-between rounded-lg border border-dashed border-outline-variant px-4 transition-colors hover:bg-surface-container disabled:opacity-60"
                   >
-                    <span className="truncate font-label-md text-on-surface-variant">{fotoNombre || "Seleccionar archivo..."}</span>
-                    <Icon name="add_a_photo" className="text-on-surface-variant" />
+                    <span className="truncate font-label-md text-on-surface-variant">
+                      {uploadingFoto ? "Subiendo..." : fotoNombre || "Seleccionar archivo..."}
+                    </span>
+                    <Icon name={uploadingFoto ? "progress_activity" : "add_a_photo"} className={`text-on-surface-variant ${uploadingFoto ? "animate-spin" : ""}`} />
                   </button>
                   <input ref={fileInputRef} type="file" accept="image/*" className="hidden" onChange={handlePhoto} />
                 </Field>

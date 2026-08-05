@@ -10,9 +10,6 @@ import Icon from "../components/Icon";
 const ESPECIE_LABEL = { perro: "Perro", gato: "Gato", ave: "Ave", otro: "Otro" };
 const SEXO_LABEL = { macho: "Macho", hembra: "Hembra", desconocido: "Desconocido" };
 
-const MAP_IMAGE =
-  "https://lh3.googleusercontent.com/aida-public/AB6AXuDGiqTwSHXo9ZOfYTu1jYXtC3dDSKQGnqMtK6m5DqSrEOSR037lbZ_oAFnQwepfHi-JQJsaCLP6f-fMf3MWZ9lOinK2sLG_cZqKrkxFuoF4t7bmTDmGITJgH-ZGet9oBhB9qR621HmDtn5m9KwohC6YZSQ9aRuctE2mv4UUpJo9MNdYcOsiX_pIKOdfVqHql4KnzsMFPxU786lzSB0GeN82KwMocIc75XGMO-Jt19YzP8hXX_j-dRBCcz9Sp2Tv_B85lociApPkkr8";
-
 export default function CaseDetail() {
   const { id } = useParams();
   const { user } = useAuth();
@@ -210,10 +207,13 @@ export default function CaseDetail() {
             <p className="font-label-md text-label-md text-on-surface-variant">{report.ubicacion}</p>
           </div>
           <div className="relative h-96 overflow-hidden rounded-xl border border-outline-variant/30 shadow-md">
-            <div className="flex h-full w-full items-center justify-center overflow-hidden bg-surface-container">
-              <img className="h-full w-full object-cover" src={MAP_IMAGE} alt={`Mapa de ${report.ubicacion}`} />
-            </div>
-            <div className="absolute bottom-4 right-4 max-w-[280px] rounded-lg border border-outline-variant/30 bg-white p-4 shadow-lg">
+            <iframe
+              className="h-full w-full border-0"
+              loading="lazy"
+              title={`Mapa de ${report.ubicacion}`}
+              src={`https://www.google.com/maps?q=${encodeURIComponent(report.ubicacion)}&output=embed`}
+            />
+            <div className="pointer-events-none absolute bottom-4 right-4 max-w-[280px] rounded-lg border border-outline-variant/30 bg-white p-4 shadow-lg">
               <p className="mb-1 font-label-md text-label-md text-on-surface">{report.ubicacion}</p>
               <p className="text-caption font-caption text-on-surface-variant">Última ubicación reportada.</p>
             </div>
