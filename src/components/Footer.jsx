@@ -47,6 +47,15 @@ export default function Footer() {
           </div>
         </div>
       </div>
+      <div className="mx-auto mt-10 flex max-w-[1200px] flex-col items-center gap-2 border-t border-outline-variant/30 pt-6 text-center">
+        <p className="font-label-md text-label-md text-on-surface-variant">
+          Desarrollado por Wilkeni Solis y Ronaldo Suero
+        </p>
+        <p className="flex items-center gap-1 text-caption text-outline">
+          J.M.P.R
+          <Icon name="favorite" filled className="text-[12px] text-secondary" />
+        </p>
+      </div>
     </footer>
   );
 }
