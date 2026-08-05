@@ -1,6 +1,8 @@
-// Thin fetch wrapper around the real backend (see GUIA-FRONTEND.md), proxied
-// at /api by Vite (server.proxy in vite.config.js, target from VITE_API_URL).
-const BASE_URL = "/api";
+// Thin fetch wrapper around the real backend (see GUIA-FRONTEND.md).
+// In dev, Vite proxies /api to VITE_API_URL (server.proxy in vite.config.js).
+// That proxy doesn't exist once built/deployed, so production calls the
+// backend URL directly instead of a same-origin relative path.
+const BASE_URL = import.meta.env.DEV ? "/api" : `${import.meta.env.VITE_API_URL}/api`;
 const TOKEN_KEY = "kindredpaws.token";
 
 export function getToken() {
